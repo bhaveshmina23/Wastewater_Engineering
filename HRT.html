@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydraulic Retention Time (HRT) Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="container">
+        <header>Hydraulic Retention Time (HRT)</header>
+        <form id="hrtForm">
+            <article>
+                <label for="liquidVolume">Volume of Liquid in the System (m³):</label>
+                <input type="number" id="liquidVolume" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="liquidRemovedPerTime">Volume of Liquid Removed per Unit Time (m³/d):</label>
+                <input type="number" id="liquidRemovedPerTime" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateHRT()">Calculate HRT</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateHRT() {
+            const liquidVolume = parseFloat(document.getElementById('liquidVolume').value);
+            const liquidRemovedPerTime = parseFloat(document.getElementById('liquidRemovedPerTime').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(liquidVolume) || isNaN(liquidRemovedPerTime)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const hrt = liquidVolume / liquidRemovedPerTime; // d
+
+
+            resultElement.innerHTML = `Hydraulic Retention Time (HRT) = ${hrt.toFixed(2)} d`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specific Growth Rate Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>μ as a function of μmax</header>
+    <main class="container">
+        <form id="growthRateForm">
+            <article>
+                <label for="substrateConcentration">Conc. of growth limiting substrate (mg/L) (S):</label>
+                <input type="number" id="substrateConcentration" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="halfVelocityConstant">Half-velocity constant (mg/L) (Ks):</label>
+                <input type="number" id="halfVelocityConstant" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateGrowthRate()">Calculate μ as a function of μmax</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateGrowthRate() {
+            const substrateConcentration = parseFloat(document.getElementById('substrateConcentration').value);
+            const halfVelocityConstant = parseFloat(document.getElementById('halfVelocityConstant').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(substrateConcentration) || isNaN(halfVelocityConstant)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const μmax = 1.0; // You can set the μmax value as needed.
+            const μ = (substrateConcentration) / (substrateConcentration + halfVelocityConstant) * μmax;
+
+
+            resultElement.innerHTML = `μ = ${μ.toFixed(2)} μmax`;
+        }
+    </script>
+</body>
+
+</html>

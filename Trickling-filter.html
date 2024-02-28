@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trickling Filter Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Trickling Filter</header>
+    <main class="container">
+
+
+        <!-- Calculation 1: Volume of Trickling Filter -->
+        <h2>Volume of Trickling Filter</h2>
+        <form id="volumeCalculationForm">
+            <article>
+                <label for="diameter">Diameter of Trickling Filter (m):</label>
+                <input type="number" id="diameter" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="depth">Depth of Trickling Filter (m):</label>
+                <input type="number" id="depth" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateVolume()">Calculate Volume</button><br><br>
+
+            <article>
+                <div class="result" id="volumeResult"></div>
+            </article>
+        </form>
+
+
+        <!-- Calculation 2: BOD Loading Rate -->
+        <h2>BOD Loading Rate</h2>
+        <form id="bodLoadingRateForm">
+            <article>
+                <label for="influentFlowBOD">Influent Flow (Q, m³/d):</label>
+                <input type="number" id="influentFlowBOD" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="influentBOD">Influent BODs Concentration (So, g/m³):</label>
+                <input type="number" id="influentBOD" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="volumeBOD">Volume of Trickling Filter (V, m³):</label>
+                <input type="number" id="volumeBOD" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateBODLoadingRate()">Calculate BOD Loading Rate</button><br><br>
+
+            <article>
+                <div class="result" id="bodLoadingRateResult"></div>
+            </article>
+        </form>
+
+
+        <!-- Calculation 3: TKN Loading Rate -->
+        <h2>TKN Loading Rate</h2>
+        <form id="tknLoadingRateForm">
+            <article>
+                <label for="influentFlowTKN">Influent Flow (Q, m³/d):</label>
+                <input type="number" id="influentFlowTKN" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="tknValue">Primary Effluent TKN Value (Kg/m³):</label>
+                <input type="number" id="tknValue" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="volumeTKN">Volume of Trickling Filter (V, m³):</label>
+                <input type="number" id="volumeTKN" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateTKNLoadingRate()">Calculate TKN Loading Rate</button><br><br>
+
+            <article>
+                <div class="result" id="tknLoadingRateResult"></div>
+            </article>
+        </form>
+
+
+        <!-- Calculation 4: Specific TKN Loading -->
+        <h2>Specific TKN Loading</h2>
+        <form id="specificTKNLoadingForm">
+            <article>
+                <label for="influentFlowSpecific">Influent Flow (Q, m³/d):</label>
+                <input type="number" id="influentFlowSpecific" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="tknValueSpecific">Primary Effluent TKN Value (Kg/m³):</label>
+                <input type="number" id="tknValueSpecific" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="volumeSpecific">Volume of Trickling Filter (V, m³):</label>
+                <input type="number" id="volumeSpecific" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="surfaceArea">Specific Surface Area of the Packing (m²/m³):</label>
+                <input type="number" id="surfaceArea" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateSpecificTKNLoading()">Calculate Specific TKN
+                Loading</button><br><br>
+
+            <article>
+                <div class="result" id="specificTKNLoadingResult"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        // Calculation 1: Volume of Trickling Filter
+        function calculateVolume() {
+            const diameter = parseFloat(document.getElementById('diameter').value);
+            const depth = parseFloat(document.getElementById('depth').value);
+            const resultElement = document.getElementById('volumeResult');
+
+
+            if (isNaN(diameter) || isNaN(depth)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const v = (3.14 * Math.pow(diameter, 2) * depth) / 4;
+
+
+            resultElement.innerHTML = `Volume of Trickling Filter, V = ${v.toFixed(2)} m³`;
+        }
+
+
+        // Calculation 2: BOD Loading Rate
+        function calculateBODLoadingRate() {
+            const influentFlow = parseFloat(document.getElementById('influentFlowBOD').value);
+            const influentBOD = parseFloat(document.getElementById('influentBOD').value);
+            const volumeBOD = parseFloat(document.getElementById('volumeBOD').value);
+            const resultElement = document.getElementById('bodLoadingRateResult');
+
+
+            if (isNaN(influentFlow) || isNaN(influentBOD) || isNaN(volumeBOD)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const LR = (influentFlow * influentBOD) / volumeBOD;
+
+
+            resultElement.innerHTML = `BOD Loading Rate = ${LR.toFixed(2)} Kg/m³.d`;
+        }
+
+
+        // Calculation 3: TKN Loading Rate
+        function calculateTKNLoadingRate() {
+            const influentFlow = parseFloat(document.getElementById('influentFlowTKN').value);
+            const tknValue = parseFloat(document.getElementById('tknValue').value);
+            const volumeTKN = parseFloat(document.getElementById('volumeTKN').value);
+            const resultElement = document.getElementById('tknLoadingRateResult');
+
+
+            if (isNaN(influentFlow) || isNaN(tknValue) || isNaN(volumeTKN)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const a = (influentFlow * tknValue) / volumeTKN;
+
+
+            resultElement.innerHTML = `TKN Loading Rate = ${a.toFixed(2)} Kg TKN / m³.d`;
+        }
+
+
+        // Calculation 4: Specific TKN Loading
+        function calculateSpecificTKNLoading() {
+            const influentFlow = parseFloat(document.getElementById('influentFlowSpecific').value);
+            const tknValue = parseFloat(document.getElementById('tknValueSpecific').value);
+            const volumeSpecific = parseFloat(document.getElementById('volumeSpecific').value);
+            const surfaceArea = parseFloat(document.getElementById('surfaceArea').value);
+            const resultElement = document.getElementById('specificTKNLoadingResult');
+
+
+            if (isNaN(influentFlow) || isNaN(tknValue) || isNaN(volumeSpecific) || isNaN(surfaceArea)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const b = (influentFlow * tknValue) / (volumeSpecific * surfaceArea);
+
+
+            resultElement.innerHTML = `Specific TKN Loading Rate = ${b.toFixed(2)} Kg N / m².d`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sludge Age Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Sludge Age Calculator</header>
+    <main class="container">
+
+
+        <div id="input1">
+            <h2>Input 1:</h2>
+            <form id="input1Form">
+                <article>
+                    <label for="solubleBOD">BOD Soluble,S (mg/L):</label>
+                    <input type="number" id="solubleBOD" step="0.01" required>
+                </article>
+
+                <article>
+                    <label for="ks">Half Saturation Coefficient, Ks (mg/L):</label>
+                    <input type="number" id="ks" step="0.01" required>
+                </article>
+
+                <article>
+                    <label for="umax">Maximum Specific Growth Rate, μmax (d^-1):</label>
+                    <input type="number" id="umax" step="0.01" required>
+                </article>
+
+                <article>
+                    <label for="kd1">Endogenous Respiration Coefficient, Kd (d^-1):</label>
+                    <input type="number" id="kd1" step="0.01" required>
+                </article>
+
+                <article>
+                    <button type="button" onclick="calculateSA1()">Calculate Sludge Age</button>
+                </article>
+
+                <article>
+                    <div class="result" id="result1"></div>
+                </article>
+            </form>
+        </div>
+
+        <div id="input2">
+            <h2>Input 2:</h2>
+            <form id="input2Form">
+                <article>
+                    <label for="kd2">Endogenous Respiration Coefficient, Kd (d^-1):</label>
+                    <input type="number" id="kd2" step="0.01" required>
+                </article>
+
+                <article>
+                    <label for="um">Specific Growth Rate, μ (d^-1):</label>
+                    <input type="number" id="um" step="0.01" required>
+                </article>
+
+
+                <button type="button" onclick="calculateSA2()">Calculate Sludge Age</button><br><br>
+
+                <article>
+                    <div class="result" id="result2"></div>
+                </article>
+            </form>
+        </div>
+    </main>
+
+
+    <script>
+        function calculateSA1() {
+            const solubleBOD = parseFloat(document.getElementById('solubleBOD').value);
+            const ks = parseFloat(document.getElementById('ks').value);
+            const umax = parseFloat(document.getElementById('umax').value);
+            const kd1 = parseFloat(document.getElementById('kd1').value);
+            const resultElement = document.getElementById('result1');
+
+
+            if (isNaN(solubleBOD) || isNaN(ks) || isNaN(umax) || isNaN(kd1)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const μ = (solubleBOD / (solubleBOD + ks)) * umax;
+            const SA = 1 / (μ - kd1);
+
+
+            resultElement.innerHTML = `Sludge Age = ${SA.toFixed(2)} d`;
+        }
+
+
+        function calculateSA2() {
+            const kd2 = parseFloat(document.getElementById('kd2').value);
+            const um = parseFloat(document.getElementById('um').value);
+            const resultElement = document.getElementById('result2');
+
+
+            if (isNaN(kd2) || isNaN(um)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const SA = 1 / (um - kd2);
+
+            if (SA > 0) {
+
+                resultElement.innerHTML = `Sludge Age = ${SA.toFixed(2)} d`;
+            }
+            else {
+                resultElement.innerHTML = "Values provided are incorrect please recheck the values"
+            }
+        }
+    </script>
+</body>
+
+</html>

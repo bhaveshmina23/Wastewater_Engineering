@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F/M Ratio Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>F/M Ratio Calculator</header>
+    <main class="container">
+        <form id="fmRatioForm">
+            <article>
+                <label for="influentFlow">Influent Flow (Q, m³/d):</label>
+                <input type="number" id="influentFlow" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="influentBODs">Influent BODs Concentration (So, g/m³):</label>
+                <input type="number" id="influentBODs" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="reactorVolume">Reactor Volume (V, m³):</label>
+                <input type="number" id="reactorVolume" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="volatileSuspendedSolids">Volatile Suspended Solids Concentration (Xv, g/m³):</label>
+                <input type="number" id="volatileSuspendedSolids" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateFMRatio()">Calculate F/M Ratio</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateFMRatio() {
+            const influentFlow = parseFloat(document.getElementById('influentFlow').value);
+            const influentBODs = parseFloat(document.getElementById('influentBODs').value);
+            const reactorVolume = parseFloat(document.getElementById('reactorVolume').value);
+            const volatileSuspendedSolids = parseFloat(document.getElementById('volatileSuspendedSolids').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(influentFlow) || isNaN(influentBODs) || isNaN(reactorVolume) || isNaN(volatileSuspendedSolids)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const fm = (influentFlow * influentBODs) / (reactorVolume * volatileSuspendedSolids);
+
+
+            resultElement.innerHTML = `Food by Microbe Ratio (F/M) = ${fm.toFixed(2)} d⁻¹<br>`;
+            resultElement.innerHTML += `Food by Microbe Ratio (F/M) = ${fm.toFixed(2)} KgBOD₅ / KgVSS.d`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Volatile Solids Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Total Volatile Solids Calculator</header>
+    <main class="container">
+        <form id="tvsForm">
+            <article>
+                <label for="driedCrucibleWeight">Weight of Crucible after Drying (mg):</label>
+                <input type="number" id="driedCrucibleWeight" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="ignitedCrucibleWeight">Weight of Crucible after Ignition (mg):</label>
+                <input type="number" id="ignitedCrucibleWeight" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="sampleVolume">Volume of Sample Used (mL):</label>
+                <input type="number" id="sampleVolume" required>
+            </article>
+
+
+            <button type="button" onclick="calculateTVS()">Calculate TVS</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateTVS() {
+            const driedCrucibleWeight = parseFloat(document.getElementById('driedCrucibleWeight').value);
+            const ignitedCrucibleWeight = parseFloat(document.getElementById('ignitedCrucibleWeight').value);
+            const sampleVolume = parseFloat(document.getElementById('sampleVolume').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(driedCrucibleWeight) || isNaN(ignitedCrucibleWeight) || isNaN(sampleVolume)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const TVS = ((driedCrucibleWeight - ignitedCrucibleWeight) * 1000) / sampleVolume; // mg/L
+
+
+            resultElement.innerHTML = `Total Volatile Solids (TVS): ${TVS.toFixed(2)} mg/L`;
+        }
+    </script>
+</body>
+
+</html>

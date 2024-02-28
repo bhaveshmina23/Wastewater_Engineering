@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Suspended Solids Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Total Suspended Solids Calculator</header>
+    <main class="container">
+        <form id="tssForm">
+            <article>
+                <label for="emptyFilterWeight">Weight of Empty Filter Paper (mg):</label>
+                <input type="number" id="emptyFilterWeight" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="driedFilterWeight">Weight of Filter Paper after Drying (mg):</label>
+                <input type="number" id="driedFilterWeight" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="sampleVolume">Volume of Sample Used (mL):</label>
+                <input type="number" id="sampleVolume" required>
+            </article>
+
+
+            <button type="button" onclick="calculateTSS()">Calculate TSS</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateTSS() {
+            const emptyFilterWeight = parseFloat(document.getElementById('emptyFilterWeight').value);
+            const driedFilterWeight = parseFloat(document.getElementById('driedFilterWeight').value);
+            const sampleVolume = parseFloat(document.getElementById('sampleVolume').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(emptyFilterWeight) || isNaN(driedFilterWeight) || isNaN(sampleVolume)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const TSS = ((driedFilterWeight - emptyFilterWeight) * 1000) / sampleVolume; // mg/L
+
+
+            resultElement.innerHTML = `Total Suspended Solids (TSS): ${TSS.toFixed(2)} mg/L`;
+        }
+    </script>
+</body>
+
+</html>

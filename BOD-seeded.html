@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seeded BOD Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Seeded BOD Calculator</header>
+    <main class="container">
+        <form id="bodForm">
+            <article>
+                <label for="initialDOReference">Initial D.O of Reference Sample (mg/L):</label>
+                <input type="number" id="initialDOReference" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="day5DOReference">5 Day D.O of Reference Sample (mg/L):</label>
+                <input type="number" id="day5DOReference" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="initialDOSeed">Initial D.O of Seed Material (mg/L):</label>
+                <input type="number" id="initialDOSeed" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="day5DOSeed">5 Day D.O of Seed Material (mg/L):</label>
+                <input type="number" id="day5DOSeed" step="0.01" required><br><br>
+            </article>
+
+            <article>
+                <label for="volumeReference">Volume Used of Reference Sample (mL):</label>
+                <input type="number" id="volumeReference" required>
+            </article>
+
+            <article>
+                <label for="volumeSeed">Volume Used of Seed Material (mL):</label>
+                <input type="number" id="volumeSeed" required>
+            </article>
+
+            <article>
+                <label for="bottleVolume">Volume of Bottle (mL):</label>
+                <input type="number" id="bottleVolume" required>
+            </article>
+
+
+            <button type="button" onclick="calculateSeededBOD()">Calculate Seeded BOD</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateSeededBOD() {
+            const initialDOReference = parseFloat(document.getElementById('initialDOReference').value);
+            const day5DOReference = parseFloat(document.getElementById('day5DOReference').value);
+            const initialDOSeed = parseFloat(document.getElementById('initialDOSeed').value);
+            const day5DOSeed = parseFloat(document.getElementById('day5DOSeed').value);
+            const volumeReference = parseFloat(document.getElementById('volumeReference').value);
+            const volumeSeed = parseFloat(document.getElementById('volumeSeed').value);
+            const bottleVolume = parseFloat(document.getElementById('bottleVolume').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (day5DOReference >= 1 && day5DOSeed >= 1 && (initialDOReference - day5DOReference) >= 2 && initialDOSeed > day5DOSeed) {
+                const D1 = (initialDOReference - day5DOReference);
+                const D2 = (initialDOSeed - day5DOSeed) / volumeSeed;
+                const seededBOD = ((D1 - D2) * bottleVolume) / volumeReference;
+                resultElement.innerHTML = `Seeded BOD: ${seededBOD.toFixed(2)} mg/L`;
+            } else if(day5DOReference < 1) {
+                resultElement.innerHTML = "Minimum 5 Day DO must be greater than or equal to 1 mg/L ";
+            }
+            else if(day5DOSeed < 1) {
+                resultElement.innerHTML = "Minimum 5 Day seeded DO must be greater than or equal to 1 mg/L ";
+            }
+            else if((initialDOReference - day5DOReference) < 2) {
+                resultElement.innerHTML = "Minimum depletion (or Initial DO - 5 Day DO) must be greater than or equal to 2 mg/L ";
+            }
+            else{
+                resultElement.innerHTML = "Values provided are incorrect please recheck the values. \n";
+            }
+        }
+    </script>
+</body>
+
+</html>

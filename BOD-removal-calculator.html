@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOD Removal Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>BOD Removal</header>
+    <main class="container">
+        <form id="bodRemovalForm">
+            <p>Soluble BOD Concentration in Each Stage</p>
+            <article>
+                <label for="initialConcentration">sBOD Concentration in stage n (mg/L):</label>
+                <input type="number" id="initialConcentration" step="0.01" required>
+            </article>
+            <article>
+                <label for="diskSurfaceArea">Disk Surface Area on stage n (m²):</label>
+                <input type="number" id="diskSurfaceArea" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="flowRate">Flowrate (m³/d):</label>
+                <input type="number" id="flowRate" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="numStages">Number of Stages (n):</label>
+                <input type="number" id="numStages" required>
+            </article>
+
+            <button type="button" onclick="calculateBODRemoval()">Calculate BOD Removal</button><br><br>
+            <article>
+                <div class="result" id="bodRemovalResult"></div>
+            </article>
+        </form>
+    </main>
+
+    <script>
+        function calculateBODRemoval() {
+            const initialConcentration = parseFloat(document.getElementById('initialConcentration').value);
+            const diskSurfaceArea = parseFloat(document.getElementById('diskSurfaceArea').value);
+            const flowRate = parseFloat(document.getElementById('flowRate').value);
+            const numStages = parseInt(document.getElementById('numStages').value);
+            const resultElement = document.getElementById('bodRemovalResult');
+
+            if (isNaN(initialConcentration) || isNaN(diskSurfaceArea) || isNaN(flowRate) || isNaN(numStages)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+            let sn = initialConcentration;
+
+            for (let stage = 1; stage <= numStages; stage++) {
+                sn = (-1 + (Math.sqrt(1 + 4 * 0.00974 * diskSurfaceArea / flowRate * sn))) / (2 * 0.00974 * diskSurfaceArea / flowRate);
+
+                resultElement.innerHTML += `sBOD concentration in stage ${stage} is ${sn.toFixed(2)} g/m³<br>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

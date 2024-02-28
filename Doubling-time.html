@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doubling Time Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="container">
+        <header>Doubling Time Calculator</header>
+        <form id="doublingTimeForm">
+            <article>
+                <label for="kd">Endogenous Respiration Coefficient (d^-1):</label>
+                <input type="number" id="kd" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="um">Specific Growth Rate (d^-1):</label>
+                <input type="number" id="um" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateDoublingTime()">Calculate Doubling Time</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateDoublingTime() {
+            const kd = parseFloat(document.getElementById('kd').value);
+            const um = parseFloat(document.getElementById('um').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(kd) || isNaN(um)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const t = 0.693 / (um - kd); // d
+
+
+            resultElement.innerHTML = `Doubling Time = ${t.toFixed(2)} d`;
+        }
+    </script>
+</body>
+
+</html>

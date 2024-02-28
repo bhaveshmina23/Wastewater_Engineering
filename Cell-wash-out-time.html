@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Wash-Out Time Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Cell Wash-Out Time Calculator</header>
+    <main class="container">
+        <form id="washOutTimeForm">
+            <article>
+                <label for="concentrationAtTimeT">Bacterial Concentration at Time t:</label>
+                <input type="number" id="concentrationAtTimeT" step="0.01" required>
+            </article>
+            <article>
+                <label for="concentrationAtTimeZero">Bacterial Concentration at Time t = 0:</label>
+                <input type="number" id="concentrationAtTimeZero" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="kd">Endogenous Respiration Coefficient (d^-1):</label>
+                <input type="number" id="kd" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="um">Specific Growth Rate (d^-1):</label>
+                <input type="number" id="um" step="0.01" required>
+            </article>
+
+
+            <button type="button" onclick="calculateWashOutTime()">Calculate Cell Wash-Out Time</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateWashOutTime() {
+            const concentrationAtTimeT = parseFloat(document.getElementById('concentrationAtTimeT').value);
+            const concentrationAtTimeZero = parseFloat(document.getElementById('concentrationAtTimeZero').value);
+            const kd = parseFloat(document.getElementById('kd').value);
+            const um = parseFloat(document.getElementById('um').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(concentrationAtTimeT) || isNaN(concentrationAtTimeZero) || isNaN(kd) || isNaN(um)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const t = (Math.log(concentrationAtTimeT) - Math.log(concentrationAtTimeZero)) / (um - kd); // d
+
+
+            resultElement.innerHTML = `Cell Wash-Out Time = ${t.toFixed(2)} d`;
+        }
+    </script>
+</body>
+
+</html>

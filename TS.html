@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Solids Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>Total Solids Calculator</header>
+    <main class="container">
+        <form id="tsForm">
+            <article>
+                <label for="emptyCrucibleWeight">Weight of Empty Crucible (mg):</label>
+                <input type="number" id="emptyCrucibleWeight" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="driedSampleWeight">Weight of Crucible with Dried Sample (mg):</label>
+                <input type="number" id="driedSampleWeight" step="0.01" required>
+            </article>
+
+            <article>
+                <label for="sampleVolume">Volume of Sample Used (mL):</label>
+                <input type="number" id="sampleVolume" required>
+            </article>
+
+
+            <button type="button" onclick="calculateTS()">Calculate TS</button><br><br>
+
+            <article>
+                <div class="result" id="result"></div>
+            </article>
+        </form>
+    </main>
+
+
+    <script>
+        function calculateTS() {
+            const emptyCrucibleWeight = parseFloat(document.getElementById('emptyCrucibleWeight').value);
+            const driedSampleWeight = parseFloat(document.getElementById('driedSampleWeight').value);
+            const sampleVolume = parseFloat(document.getElementById('sampleVolume').value);
+            const resultElement = document.getElementById('result');
+
+
+            if (isNaN(emptyCrucibleWeight) || isNaN(driedSampleWeight) || isNaN(sampleVolume)) {
+                resultElement.innerHTML = "Please enter valid values.";
+                return;
+            }
+
+
+            const TS = ((driedSampleWeight - emptyCrucibleWeight) * 1000) / sampleVolume; // mg/L
+
+
+            resultElement.innerHTML = `Total Solids (TS): ${TS.toFixed(2)} mg/L`;
+        }
+    </script>
+</body>
+
+</html>
